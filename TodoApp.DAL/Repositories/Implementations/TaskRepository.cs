@@ -19,13 +19,12 @@ namespace TodoApp.DAL.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<IEnumerable<TaskItem>> GetAllAsync(Guid userId)
+        public IQueryable<TaskItem> GetQueryable(Guid userId)
         {
-            return await _context.Tasks
+            return _context.Tasks
                 .Include(x => x.Category)
                 .Where(x => x.UserId == userId)
-                .OrderByDescending(x => x.CreatedAt)
-                .ToListAsync();
+                .OrderByDescending(x => x.CreatedAt);
         }
 
         public async Task<TaskItem?> GetByIdAsync(Guid id)

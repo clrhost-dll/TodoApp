@@ -9,7 +9,7 @@ namespace TodoApp.DAL.Repositories.Interfaces
 {
     public interface ITaskRepository
     {
-        Task<IEnumerable<TaskItem>> GetAllAsync(Guid userId);
+        IQueryable<TaskItem> GetQueryable(Guid userId);
 
         Task<TaskItem?> GetByIdAsync(Guid id);
 

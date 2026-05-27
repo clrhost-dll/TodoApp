@@ -8,6 +8,9 @@ using TodoApp.BLL.Interfaces;
 using TodoApp.BLL.Services;
 using TodoApp.DAL.Repositories.Implementations;
 using TodoApp.DAL.Repositories.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +18,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssembly(
+    Assembly.Load("TodoApp.BLL"));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

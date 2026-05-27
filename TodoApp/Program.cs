@@ -3,14 +3,18 @@ using TodoApp.DAL.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 using TodoApp.BLL.Helpers;
 using TodoApp.BLL.Interfaces;
 using TodoApp.BLL.Services;
 using TodoApp.DAL.Repositories.Implementations;
 using TodoApp.DAL.Repositories.Interfaces;
+
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+
+using TodoApp.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -101,6 +105,8 @@ builder.Services.AddAuthentication(
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

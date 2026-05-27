@@ -8,6 +8,7 @@ using TodoApp.BLL.Helpers;
 using TodoApp.BLL.Interfaces;
 using TodoApp.DAL.Entities;
 using TodoApp.DAL.Repositories.Interfaces;
+using TodoApp.BLL.Exceptions;
 
 namespace TodoApp.BLL.Services
 {
@@ -31,7 +32,7 @@ namespace TodoApp.BLL.Services
 
             if (existingUser is not null)
             {
-                throw new Exception("User already exists");
+                throw new BadRequestException("User already exists");
             }
 
             User user = new()
@@ -63,7 +64,7 @@ namespace TodoApp.BLL.Services
 
             if (user is null)
             {
-                throw new Exception("Invalid credentials");
+                throw new UnauthorizedException("Invalid credentials");
             }
 
             bool isPasswordValid =
@@ -73,7 +74,7 @@ namespace TodoApp.BLL.Services
 
             if (!isPasswordValid)
             {
-                throw new Exception("Invalid credentials");
+                throw new UnauthorizedException("Invalid credentials");
             }
 
             string token =

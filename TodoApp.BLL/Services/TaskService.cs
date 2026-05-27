@@ -9,6 +9,7 @@ using TodoApp.BLL.Interfaces;
 using TodoApp.BLL.Models;
 using TodoApp.DAL.Entities;
 using TodoApp.DAL.Repositories.Interfaces;
+using TodoApp.BLL.Exceptions;
 
 namespace TodoApp.BLL.Services
 {
@@ -117,7 +118,7 @@ namespace TodoApp.BLL.Services
 
             if (task is null)
             {
-                throw new Exception("Task not found");
+                throw new NotFoundException("Task not found");
             }
 
             task.Title = dto.Title;
@@ -138,7 +139,7 @@ namespace TodoApp.BLL.Services
 
             if (task is null)
             {
-                throw new Exception("Task not found");
+                throw new NotFoundException("Task not found");
             }
 
             _taskRepository.Delete(task);

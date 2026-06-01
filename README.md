@@ -56,6 +56,7 @@ POST /api/auth/login
 
 GET /api/categories
 POST /api/categories
+DELETE /api/categories/{id}
 
 ### Tasks
 

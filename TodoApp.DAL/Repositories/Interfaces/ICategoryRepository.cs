@@ -8,7 +8,6 @@ namespace TodoApp.DAL.Repositories.Interfaces
         Task<Category?> GetByIdAsync(Guid id);
         Task CreateAsync(Category category);
         void Delete(Category category);
-
         Task SaveChangesAsync();
     }
 }

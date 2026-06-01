@@ -17,8 +17,7 @@ namespace TodoApp.BLL.Services
             _taskRepository = taskRepository;
         }
 
-        public async Task<PagedResult<TaskDto>> GetAllAsync(
-            Guid userId,
+        public async Task<PagedResult<TaskDto>> GetAllAsync(Guid userId,
             TaskQueryDto query)
         {
             IQueryable<TaskItem> tasks =
@@ -65,8 +64,7 @@ namespace TodoApp.BLL.Services
 
         public async Task<TaskDto?> GetByIdAsync(Guid id)
         {
-            TaskItem? task =
-                await _taskRepository.GetByIdAsync(id);
+            TaskItem? task = await _taskRepository.GetByIdAsync(id);
 
             if (task is null)
             {
@@ -86,9 +84,7 @@ namespace TodoApp.BLL.Services
             };
         }
 
-        public async Task CreateAsync(
-            Guid userId,
-            CreateTaskDto dto)
+        public async Task CreateAsync(Guid userId,CreateTaskDto dto)
         {
             TaskItem task = new()
             {
@@ -105,12 +101,9 @@ namespace TodoApp.BLL.Services
             await _taskRepository.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(
-            Guid id,
-            UpdateTaskDto dto)
+        public async Task UpdateAsync(Guid id,UpdateTaskDto dto)
         {
-            TaskItem? task =
-                await _taskRepository.GetByIdAsync(id);
+            TaskItem? task = await _taskRepository.GetByIdAsync(id);
 
             if (task is null)
             {
@@ -129,8 +122,7 @@ namespace TodoApp.BLL.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            TaskItem? task =
-                await _taskRepository.GetByIdAsync(id);
+            TaskItem? task = await _taskRepository.GetByIdAsync(id);
 
             if (task is null)
             {

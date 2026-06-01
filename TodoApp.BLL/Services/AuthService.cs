@@ -31,9 +31,7 @@ namespace TodoApp.BLL.Services
 
             if (existingUser is not null)
             {
-                _logger.LogWarning(
-                    "Registration failed - user already exists: {Email}",
-                    dto.Email);
+                _logger.LogWarning("Registration failed - user already exists: {Email}",dto.Email);
                 throw new BadRequestException("User already exists");
             }
 
@@ -48,9 +46,7 @@ namespace TodoApp.BLL.Services
             await _userRepository.CreateAsync(user);
             await _userRepository.SaveChangesAsync();
 
-            _logger.LogInformation(
-                "User registered successfully: {Email}",
-                dto.Email);
+            _logger.LogInformation("User registered successfully: {Email}",dto.Email);
 
             string token = _jwtTokenGenerator.GenerateToken(user);
 
@@ -68,26 +64,19 @@ namespace TodoApp.BLL.Services
 
             if (user is null)
             {
-                _logger.LogWarning(
-                    "Login failed - user not found: {Email}",
-                    dto.Email);
+                _logger.LogWarning("Login failed - user not found: {Email}",dto.Email);
                 throw new UnauthorizedException("Invalid credentials");
             }
 
-            bool isPasswordValid =
-                BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
 
             if (!isPasswordValid)
             {
-                _logger.LogWarning(
-                    "Login failed - invalid password for: {Email}",
-                    dto.Email);
+                _logger.LogWarning("Login failed - invalid password for: {Email}",dto.Email);
                 throw new UnauthorizedException("Invalid credentials");
             }
 
-            _logger.LogInformation(
-                "User logged in successfully: {Email}",
-                dto.Email);
+            _logger.LogInformation("User logged in successfully: {Email}",dto.Email);
 
             string token = _jwtTokenGenerator.GenerateToken(user);
 

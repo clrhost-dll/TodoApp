@@ -4,7 +4,6 @@ using System.Security.Claims;
 using TodoApp.BLL.DTOs.Categories;
 using TodoApp.BLL.Interfaces;
 
-
 namespace TodoApp.Controllers
 {
     [ApiController]
@@ -24,31 +23,29 @@ namespace TodoApp.Controllers
         public async Task<IActionResult> GetAll()
         {
             Guid userId = GetUserId();
-
-            var result =
-                await _categoryService.GetAllAsync(userId);
-
+            var result = await _categoryService.GetAllAsync(userId);
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(
-            CreateCategoryDto dto)
+        public async Task<IActionResult> Create(CreateCategoryDto dto)
         {
             Guid userId = GetUserId();
+            await _categoryService.CreateAsync(userId, dto);
+            return StatusCode(201);
+        }
 
-            await _categoryService.CreateAsync(
-                userId,
-                dto);
-
-            return Ok();
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _categoryService.DeleteAsync(id);
+            return NoContent();
         }
 
         private Guid GetUserId()
         {
             return Guid.Parse(
-                User.FindFirstValue(
-                    ClaimTypes.NameIdentifier)!);
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         }
     }
 }

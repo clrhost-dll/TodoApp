@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TodoApp.BLL.DTOs.Tasks;
+using TodoApp.BLL.Exceptions;
 using TodoApp.BLL.Interfaces;
 using TodoApp.BLL.Models;
 using TodoApp.DAL.Entities;
 using TodoApp.DAL.Repositories.Interfaces;
-using TodoApp.BLL.Exceptions;
 
 namespace TodoApp.BLL.Services
 {
@@ -54,6 +49,7 @@ namespace TodoApp.BLL.Services
                     IsCompleted = x.IsCompleted,
                     CreatedAt = x.CreatedAt,
                     DueDate = x.DueDate,
+                    CategoryId = x.CategoryId,
                     CategoryName = x.Category.Name
                 })
                 .ToListAsync();
@@ -85,6 +81,7 @@ namespace TodoApp.BLL.Services
                 IsCompleted = task.IsCompleted,
                 CreatedAt = task.CreatedAt,
                 DueDate = task.DueDate,
+                CategoryId = task.CategoryId,
                 CategoryName = task.Category.Name
             };
         }
@@ -105,7 +102,6 @@ namespace TodoApp.BLL.Services
             };
 
             await _taskRepository.CreateAsync(task);
-
             await _taskRepository.SaveChangesAsync();
         }
 
@@ -128,7 +124,6 @@ namespace TodoApp.BLL.Services
             task.DueDate = dto.DueDate;
 
             _taskRepository.Update(task);
-
             await _taskRepository.SaveChangesAsync();
         }
 
@@ -143,7 +138,6 @@ namespace TodoApp.BLL.Services
             }
 
             _taskRepository.Delete(task);
-
             await _taskRepository.SaveChangesAsync();
         }
     }

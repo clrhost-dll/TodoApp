@@ -41,6 +41,7 @@ namespace TodoApp.BLL.DTOs.Tasks
         public DateTime CreatedAt { get; set; }
 
         public DateTime? DueDate { get; set; }
+        public Guid CategoryId { get; set; }
 
         public string CategoryName { get; set; } = null!;
     }

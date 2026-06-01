@@ -16,22 +16,16 @@ namespace TodoApp.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(
-            RegisterDto dto)
+        public async Task<IActionResult> Register(RegisterDto dto)
         {
-            var result =
-                await _authService.RegisterAsync(dto);
-
-            return Ok(result);
+            var result = await _authService.RegisterAsync(dto);
+            return StatusCode(201, result);
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(
-            LoginDto dto)
+        public async Task<IActionResult> Login(LoginDto dto)
         {
-            var result =
-                await _authService.LoginAsync(dto);
-
+            var result = await _authService.LoginAsync(dto);
             return Ok(result);
         }
     }

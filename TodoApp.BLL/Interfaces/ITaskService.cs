@@ -10,19 +10,13 @@ namespace TodoApp.BLL.Interfaces
 {
     public interface ITaskService
     {
-        Task<PagedResult<TaskDto>> GetAllAsync(
-            Guid userId,
-            TaskQueryDto query);
+        Task<PagedResult<TaskDto>> GetAllAsync(Guid userId,TaskQueryDto query);
 
         Task<TaskDto?> GetByIdAsync(Guid id);
 
-        Task CreateAsync(
-            Guid userId,
-            CreateTaskDto dto);
+        Task CreateAsync(Guid userId,CreateTaskDto dto);
 
-        Task UpdateAsync(
-            Guid id,
-            UpdateTaskDto dto);
+        Task UpdateAsync(Guid id,UpdateTaskDto dto);
 
         Task DeleteAsync(Guid id);
     }

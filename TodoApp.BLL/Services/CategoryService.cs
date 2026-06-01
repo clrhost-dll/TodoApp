@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TodoApp.BLL.DTOs.Categories;
+﻿using TodoApp.BLL.DTOs.Categories;
+using TodoApp.BLL.Exceptions;
 using TodoApp.BLL.Interfaces;
 using TodoApp.DAL.Entities;
 using TodoApp.DAL.Repositories.Interfaces;
@@ -14,14 +10,12 @@ namespace TodoApp.BLL.Services
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryService(
-            ICategoryRepository categoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<IEnumerable<CategoryDto>> GetAllAsync(
-            Guid userId)
+        public async Task<IEnumerable<CategoryDto>> GetAllAsync(Guid userId)
         {
             IEnumerable<Category> categories =
                 await _categoryRepository.GetAllAsync(userId);
@@ -33,9 +27,7 @@ namespace TodoApp.BLL.Services
             });
         }
 
-        public async Task CreateAsync(
-            Guid userId,
-            CreateCategoryDto dto)
+        public async Task CreateAsync(Guid userId, CreateCategoryDto dto)
         {
             Category category = new()
             {
@@ -45,7 +37,20 @@ namespace TodoApp.BLL.Services
             };
 
             await _categoryRepository.CreateAsync(category);
+            await _categoryRepository.SaveChangesAsync();
+        }
 
+        public async Task DeleteAsync(Guid id)
+        {
+            Category? category =
+                await _categoryRepository.GetByIdAsync(id);
+
+            if (category is null)
+            {
+                throw new NotFoundException("Category not found");
+            }
+
+            _categoryRepository.Delete(category);
             await _categoryRepository.SaveChangesAsync();
         }
     }

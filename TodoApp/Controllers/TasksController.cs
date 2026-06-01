@@ -19,52 +19,36 @@ namespace TodoApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(
-            [FromQuery] TaskQueryDto query)
+        public async Task<IActionResult> GetAll([FromQuery] TaskQueryDto query)
         {
             Guid userId = GetUserId();
-
-            var result = await _taskService.GetAllAsync(
-                userId,
-                query);
-
+            var result = await _taskService.GetAllAsync(userId, query);
             return Ok(result);
         }
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var result =
-                await _taskService.GetByIdAsync(id);
-
+            var result = await _taskService.GetByIdAsync(id);
             if (result is null)
             {
                 return NotFound();
             }
-
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(
-            CreateTaskDto dto)
+        public async Task<IActionResult> Create(CreateTaskDto dto)
         {
             Guid userId = GetUserId();
-
-            await _taskService.CreateAsync(
-                userId,
-                dto);
-
-            return Ok();
+            await _taskService.CreateAsync(userId, dto);
+            return StatusCode(201);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(
-            Guid id,
-            UpdateTaskDto dto)
+        public async Task<IActionResult> Update(Guid id,UpdateTaskDto dto)
         {
             await _taskService.UpdateAsync(id, dto);
-
             return Ok();
         }
 
@@ -72,15 +56,13 @@ namespace TodoApp.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _taskService.DeleteAsync(id);
-
-            return Ok();
+            return NoContent();
         }
 
         private Guid GetUserId()
         {
             return Guid.Parse(
-                User.FindFirstValue(
-                    ClaimTypes.NameIdentifier)!);
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         }
     }
 }
